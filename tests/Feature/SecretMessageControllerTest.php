@@ -17,26 +17,29 @@ class SecretMessageControllerTest extends TestCase
      */
     public function test_secret_message_can_be_decrypted()
     {
-        $response = $this->getJson('/api/message/show', [
-            'identifier' => '1234',
-            'decryption_key' => 'secret',
+     
+        $response = $this->postJson('/api/message/store', [
+            'message' => 'This is a secret message',
+            'recipient' => 'John Doe',
+            'read_once' => true,
         ]);
 
-        if ($response->status() === 404) {
-            $this->markTestSkipped('No message found with the given identifier');
-        }
-        if ($response->status() === 422) {
-            $this->markTestSkipped('Invalid decryption key');
-        }
-        if ($response->status() === 500) {
-            $this->markTestSkipped('An error occurred while decrypting the message');
-        }
-     
-        if ($response->status() === 200) {
-            $response->assertJsonStructure([
-                'message',
-            ]);
-        }
+        $response->assertJsonStructure([
+            'identifier',
+            'decryption_key',
+        ]);
+
+        $identifier = $response['identifier'];
+        $decryptionKey = $response['decryption_key'];
+
+        $response = $this->getJson('/api/message/show', [
+            'identifier' => $identifier,
+            'decryption_key' => $decryptionKey,
+        ]);
+
+        $response->assertJsonStructure([
+            'message',
+        ]);
     }
     
 

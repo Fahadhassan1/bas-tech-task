@@ -43,7 +43,6 @@ class MessageService
             return [
                 'success' => false, 
                 'message' => 'Message not found. Check identifier or decryption_key.',
-                'status' => 404
             ];
         }
 
@@ -53,7 +52,6 @@ class MessageService
             return [
                 'success' => false, 
                 'message' => 'Message has expired',
-                'status' => 404
             ];
         }
 
@@ -64,7 +62,6 @@ class MessageService
             return [
                 'success' => false, 
                 'message' => 'You can only view this message once',
-                'status' => 404
             ];
         }
 
@@ -80,7 +77,6 @@ class MessageService
             return [
                 'success' => true, 
                 'message' => $decryptedMessage,
-                'status' => 200
             ];
 
         }
@@ -88,7 +84,6 @@ class MessageService
         return [
             'success' => true, 
             'message' => $decryptedMessage,
-            'status' => 200
         ];
     }
 

@@ -69,13 +69,13 @@ class MessageController extends Controller
                     'success' => true,
                     'message' => $result['message'],
                     
-                ], $result['status']);
+                ], 200);
             }
 
             return response()->json([
                 'success' => false,
                 'error' => $result['message'],
-            ], $result['status']);
+            ], 404);
 
 
         } catch (ValidationException $e) {
