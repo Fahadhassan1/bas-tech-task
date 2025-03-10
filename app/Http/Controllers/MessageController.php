@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
 use \Illuminate\Validation\ValidationException;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
@@ -21,15 +22,11 @@ class MessageController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) 
+    public function store(MessageRequest $request) 
     {
         try {
-            $validated = $request->validate([
-                'message' => 'required|string',
-                'recipient' => 'required|string',
-                'read_once' => 'nullable|boolean',
-            ]);
 
+            $validated = $request->validated();
             // Call the service to store the message
             $response = $this->messageService->storeMessage(
                 $validated['message'],
